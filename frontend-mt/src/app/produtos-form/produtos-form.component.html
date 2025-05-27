@@ -1,0 +1,69 @@
+<div class="modal fade" id="modalProduto" tabindex="-1" aria-labelledby="modalProdutoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalProdutoLabel">{{ produtoToBeSaved?.id ? 'Editar Produto' : 'Novo Produto' }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="produtoForm">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="mb-3">
+                        <label for="nome" class="form-label">Código</label>
+                        <input type="text" id="codigo" formControlName="codigo" class="form-control" maxlength="4" />
+                        <div *ngIf="produtoForm.controls['codigo'].invalid && produtoForm.controls['codigo'].touched" class="text-danger">
+                            Código é obrigatório.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <input type="text" id="descricao" formControlName="descricao" class="form-control" maxlength="50" />
+                        <div *ngIf="produtoForm.controls['descricao'].invalid && produtoForm.controls['descricao'].touched" class="text-danger">
+                            Descrição é obrigatória.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="mb-3">
+                        <label for="departamentoId" class="form-label">Departamento</label>
+                        <select formControlName="departamentoId" class="form-control">
+                            <option disabled selected>Selecione um departamento</option>
+                            <option *ngFor="let departamento of departamentos" [value]="departamento.id">
+                                {{ departamento.codigo }} - {{departamento.descricao}}
+                            </option>
+                        </select>
+                        <div *ngIf="produtoForm.controls['departamentoId'].invalid && produtoForm.controls['departamentoId'].touched" class="text-danger">
+                            Departamento é obrigatório.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="mb-3">
+                        <label for="valor" class="form-label">Valor</label>
+                        <input type="number" step="1" id="preco" formControlName="preco" class="form-control" />
+                        <div *ngIf="produtoForm.controls['preco'].invalid && produtoForm.controls['preco'].touched" class="text-danger">
+                            Preço é obrigatório.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="status" formControlName="status" />
+                        <label class="form-check-label" for="status">Status</label>
+                    </div>
+                </div>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" (click)="submit()">Salvar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" type="button" (click)="close()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>

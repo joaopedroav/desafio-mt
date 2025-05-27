@@ -1,0 +1,72 @@
+<router-outlet></router-outlet>
+<div class="container" style="margin-top: 20px;">
+  <div class="row mb-3">
+      <div class="col-md-12 d-flex justify-content-between">
+        <button type="button" class="btn btn-dark" (click)="openNewProduto()" data-bs-toggle="modal" data-bs-target="#modalProduto">Adicionar produto</button>
+        <button type="button" class="btn btn-secondary" (click)="loadProdutos()">Pesquisar</button>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-md-12">
+          <table class="table table-bordered table-dark table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Código</th>
+                  <th scope="col">Descrição</th>
+                  <th scope="col">Departamento</th>
+                  <th scope="col">Preço</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Opções</th>
+                </tr>
+              </thead>
+              <tbody class="table-group-divider">
+                <tr *ngFor="let produto of produtos">
+                  <td scope="row">{{produto.codigo}}</td>
+                  <td>{{produto.descricao }}</td>
+                  <td>{{produto.departamento }}</td>
+                  <td>{{produto.preco | currency : 'BRL'}}</td>
+                  <td *ngIf="produto.status">
+                    <fa-icon [icon]="faCheckCircle"></fa-icon>
+                  </td>
+                  <td *ngIf="!produto.status">
+                    <fa-icon [icon]="faXmarkCircle"></fa-icon>
+                  </td>
+                  <td>
+                    <button (click)="openEditProduto(produto)" title="Editar pessoa" data-bs-toggle="modal" data-bs-target="#modalProduto">
+                      <fa-icon [icon]="faEdit"></fa-icon>
+                    </button>
+                    <button title="Remover pessoa" data-bs-toggle="modal" data-bs-target="#modalRemocao" (click)="openConfirmModal(produto.id)">
+                      <fa-icon [icon]="faTrash"></fa-icon>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+      </div>
+  </div>
+</div>
+  
+<div class="modal fade" id="modalRemocao" tabindex="-1" aria-labelledby="modalRemocaoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalRemocaoLabel">Remover Produto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Tem certeza de que deseja remover o cadastro deste produto?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="removeProduto()" data-bs-dismiss="modal">Remover</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-produtos-form
+  [produtoToBeSaved]="selectedProduto"
+  [showModal]="modalVisible"
+  (save)="saveProduto($event)"
+  (cancel)="cancelOperationSave()">
+</app-produtos-form>
